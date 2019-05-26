@@ -50,7 +50,7 @@ pipeline {
 		stage('OWASP - Dependencies check') {
             steps {
                 echo 'Check OWASP dependencies ...'
-				sh 'mvn dependency-check:purge'
+				//sh 'mvn dependency-check:purge'
 				sh 'mvn dependency-check:check'
             }
         }
