@@ -83,7 +83,7 @@
               <version>3.3.2</version>
               <configuration>
 			      <format>JSON</format>
-                  <!-- <failBuildOnCVSS>8</failBuildOnCVSS> -->
+                  <!-- <failBuildOnCVSS>8</failBuildOnCVSS>  -->
               </configuration>
               <executions>
                   <execution>
