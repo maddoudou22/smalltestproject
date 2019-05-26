@@ -11,7 +11,7 @@ pipeline {
 		AWS_ACCOUNT_ID = "962109799108"
 		kubernetesNode = 'rancher.maddoudou.click'
 		deploymentConfigurationPathSource = "deploy-k8s" // Location of K8s deployment configuration on the pipeline instance
-		deploymentConfigurationPathKubernetes = "/home/ubuntu/k8s-deployments" // Location of the K8s deployment configuration on the K8s instance
+		deploymentConfigurationPathKubernetes = "/home/ubuntu/k8s-deployments" // Location of the K8s deployment configuration on K8s instance
     }
 	
     stages {
