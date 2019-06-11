@@ -1,5 +1,11 @@
 pipeline {
-    agent any
+    agent { 
+        node {
+            //label '!master'
+			//label 'jenkins-slave-manu'
+			label 'slavespot'
+        }
+    }
 	
 	environment {
 		package_version = readMavenPom().getVersion()
