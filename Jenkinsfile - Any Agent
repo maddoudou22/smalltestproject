@@ -9,20 +9,12 @@ pipeline {
 		applicationName = 'smalltestproject' // Same as artifactId in pom.xml
 		AWS_REGION = "eu-west-1"
 		AWS_ACCOUNT_ID = "962109799108"
-		SONAR_ENDPOINT = "http://34.240.115.247:9000"
-		EC2_LOCAL_MAVEN_DEPENDENCIES_DIRECTORY = "/home/ubuntu/.m2"
-		S3_BUCKET_MAVEN_DEPENDENCIES = "s3://jenkinsspotfleetmavencache/Jenkins-Master-slave-SimpleAPI/.m2/"
+		kubernetesNode = 'rancher.maddoudou.click'
+		deploymentConfigurationPathSource = "deploy-k8s" // Location of K8s deployment configuration on the pipeline instance
+		deploymentConfigurationPathKubernetes = "/home/ubuntu/k8s-deployments" // Location of the K8s deployment configuration on K8s instance
     }
 	
     stages {
-		stage('Download dependencies from S3') {
-            steps {
-				echo 'Get the cached maven dependencies from an S3 bucket ...'
-				//sh 'mkdir -p $EC2_LOCAL_MAVEN_DEPENDENCIES_DIRECTORY'
-				sh 'aws s3 sync $S3_BUCKET_MAVEN_DEPENDENCIES $EC2_LOCAL_MAVEN_DEPENDENCIES_DIRECTORY'
-			}
-        }
-		
 /*	    stage('Prepa baking') {
             steps {
                 echo 'Getting previous image ...'
@@ -66,7 +58,7 @@ pipeline {
 		stage('Sonar - Code Quality') {
             steps {
                 echo 'Check Code Quality ...'
-				sh 'mvn sonar:sonar -Dsonar.host.url=$SONAR_ENDPOINT' // -Dsonar.dependencyCheck.reportPath=target/dependency-check-report.xml'
+				sh 'mvn sonar:sonar' // -Dsonar.dependencyCheck.reportPath=target/dependency-check-report.xml'
             }
         }
 /*		
@@ -90,13 +82,6 @@ pipeline {
 				echo 'Publishing Docker image into the private registry ...'
 				sh 'docker push ${dockerRegistry}/${dockerRepo}:${package_version}'
             }
-        }
-		
-		stage('Dependencies sync') {
-            steps {
-				echo 'Copying the maven dependencies to an S3 bucket ...'
-				sh 'aws s3 sync $EC2_LOCAL_MAVEN_DEPENDENCIES_DIRECTORY $S3_BUCKET_MAVEN_DEPENDENCIES'
-			}
         }
     }
 
