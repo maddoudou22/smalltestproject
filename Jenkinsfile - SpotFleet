@@ -1,5 +1,11 @@
 pipeline {
-    agent any
+    agent { 
+        node {
+            //label '!master'
+			//label 'master'
+			label 'slavespot'
+        }
+    }
 	
 	environment {
 		package_version = readMavenPom().getVersion()
@@ -11,6 +17,7 @@ pipeline {
 		AWS_ACCOUNT_ID = "962109799108"
 		SONAR_ENDPOINT = "http://34.242.148.141:9000"
 		EC2_LOCAL_MAVEN_DEPENDENCIES_DIRECTORY = "/home/ubuntu/.m2"
+		//EC2_LOCAL_MAVEN_DEPENDENCIES_DIRECTORY = "/var/lib/jenkins"
 		S3_BUCKET_MAVEN_DEPENDENCIES = "s3://jenkinsspotfleetmavencache/Jenkins-Master-slave-SimpleAPI/.m2/"
     }
 	
@@ -22,8 +29,9 @@ pipeline {
 				sh 'aws s3 sync $S3_BUCKET_MAVEN_DEPENDENCIES $EC2_LOCAL_MAVEN_DEPENDENCIES_DIRECTORY'
 			}
         }
-		
-/*	    stage('Prepa baking') {
+
+/*		
+	    stage('Prepa baking') {
             steps {
                 echo 'Getting previous image ...'
 				sh 'echo \"Si l\'image cache n\'existe pas dans le repo ECR elle est reconstruire, sinon elle est telechargee\"'
